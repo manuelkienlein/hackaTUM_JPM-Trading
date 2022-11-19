@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 class Authtoken(models.Model):
     user = models.OneToOneField(User, null = True, on_delete=models.CASCADE)
@@ -16,4 +19,6 @@ class Order(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
     action = models.BooleanField()
+    
+    
        

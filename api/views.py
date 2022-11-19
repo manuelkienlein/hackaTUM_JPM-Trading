@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-
+from django.shortcuts import render
 from api.serializers import StockSerializer, OrderSerializer
 from core.models import Stock, Order
 from rest_framework.decorators import api_view
@@ -11,6 +11,7 @@ def user_index(request, userid):
 
 def user_stocks(request, userid):
     return HttpResponse("TODO: API UserId " + str(userid))
+
 
 def user_stocks_buy(request, userid):
     return HttpResponse("TODO: API UserId " + str(userid))
@@ -40,3 +41,8 @@ def stocks_index(request):
 def stocks_info(request, stockId):
     serializer = StockSerializer(Stock.objects.get(id=stockId), many=False)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def orderCreationRequest(request):
+    return render(request, "orderpage.html")
+    
