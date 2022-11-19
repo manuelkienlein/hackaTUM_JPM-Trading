@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Order History</h1>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">OrderId</th>
+            <th scope="col">Stock Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th> {{ order.id }}</th>
+                <th> {{ order.stock.name }}</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

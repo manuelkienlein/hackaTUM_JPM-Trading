@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'web',
     'rest_framework',
     'core.apps.CoreConfig',
+    'crispy_forms'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,6 +60,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / "templates"],
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -124,3 +128,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = '/accounts'
+LOGOUT_REDIRECT_URL = '/'

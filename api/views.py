@@ -1,25 +1,43 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 
-from api.serializers import StockSerializer, OrderSerializer
+from api.serializers import StockSerializer, OrderSerializer, UserSerializer
 from core.models import Stock, Order, Match
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # Create your views here.
-def user_index(request, userid):
-    return HttpResponse("TODO: API UserId " + str(userid))
 
-def user_stocks(request, userid):
-    return HttpResponse("TODO: API UserId " + str(userid))
+@api_view(['GET'])
+def users_index(request):
+    serializer = UserSerializer(User.objects.all(), many=True)
+    return Response(serializer.data)
+@api_view(['GET'])
+def users_info(request, userId):
+    serializer = UserSerializer(User.objects.get(id=userId), many=False)
+    return Response(serializer.data)
+@api_view(['GET'])
+def users_stocks(request, userId):
+    # TODO
+    return HttpResponse("TODO: API UserId " + str(userId))
+@api_view(['GET'])
+def users_stocks_buy(request, userId):
+    # TODO
+    return HttpResponse("TODO: API UserId " + str(userId))
+@api_view(['GET'])
+def users_stocks_sell(request, userId):
+    # TODO
+    return HttpResponse("TODO: API UserId " + str(userId))
+@api_view(['GET'])
+def users_stocks_delete(request, userId):
+    # TODO
+    return HttpResponse("TODO: API UserId " + str(userId))
 
-def user_stocks_buy(request, userid):
-    return HttpResponse("TODO: API UserId " + str(userid))
-
-def user_stocks_sell(request, userid):
-    return HttpResponse("TODO: API UserId " + str(userid))
-
-def user_stocks_delete(request, userid):
-    return HttpResponse("TODO: API UserId " + str(userid))
+@api_view(['GET'])
+def users_orders_index(request, userId):
+    user = User.objects.get(id=userId)
+    serializer = OrderSerializer(Order.objects.filter(user=user), many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def orders_index(request):

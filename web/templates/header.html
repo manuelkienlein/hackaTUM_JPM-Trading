@@ -1,0 +1,24 @@
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'web_index' %}">JPM Trading</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse w-100" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/accounts">Home</a>
+                    <a class="nav-link" aria-current="page" href="/accounts/orders">Orders</a>
+                    <a class="nav-link" aria-current="page" href="/accounts/order-history">Order-History</a>
+                    <a class="nav-link" href="/accounts/logout">Logout</a>
+                </div>
+                <ul class="navbar-nav ml-auto">
+                    <span class="navbar-text">
+                        Hello, {{ user.username }}
+                    </span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
