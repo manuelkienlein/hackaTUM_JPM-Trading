@@ -14,10 +14,11 @@ class Stock(models.Model):
     name = models.CharField(max_length=128)
 
 class Order(models.Model):
+    
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    price = models.IntegerField()
-    quantity = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    price = models.CharField(max_length=128)
+    quantity = models.CharField(max_length=128)
     action = models.BooleanField()
     
     

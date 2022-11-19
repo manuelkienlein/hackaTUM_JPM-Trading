@@ -4,7 +4,8 @@ from api.serializers import StockSerializer, OrderSerializer
 from core.models import Stock, Order
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.http import HttpResponseRedirect
+from api.forms import orderData
 # Create your views here.
 def user_index(request, userid):
     return HttpResponse("TODO: API UserId " + str(userid))
@@ -42,7 +43,16 @@ def stocks_info(request, stockId):
     serializer = StockSerializer(Stock.objects.get(id=stockId), many=False)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def orderCreationRequest(request):
-    return render(request, "orderpage.html")
+
+def create(request):
+    form = orderData(request.POST)
+    if request.POST: 
+        if form.is_valid():
+            if request.POST.get('action') == "on":
+                actionBool = True
+            else:
+                 actionBool = False
+            createOrder = Order(user_id = request.POST.get('userForm'), price = request.POST.get('price'), quantity = request.POST.get('quantity'), action = actionBool, stock = Stock.objects.get(id=1))
+            createOrder.save()
+    return render(request, "create.html" , {"form": form})
     

@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from api.views import orderCreationRequest
+from api.views import create
 urlpatterns = [
+    path('web/', include('web.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('order/', orderCreationRequest)
+    path('offer/create', create, name = "createorder"),
 ]
