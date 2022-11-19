@@ -2,166 +2,265 @@
 <!-- templates/registration/login.html -->
 <style>
 
-* {
-  margin: 0;
-  padding: 0;
-  font: 14px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        font: 14px;
+    }
 
-.all {
-  display: flex;
-  padding-top: 140px;
-  padding-bottom: 230px;
-  margin: 0px;
-  background-color: rgb(30, 30, 31);
-  justify-content: space-around;
-  align-content: baseline;
-}
+    .all {
+        display: flex;
+        padding-top: 140px;
+        padding-bottom: 230px;
+        margin: 0px;
+        background-color: rgb(30, 30, 31);
+        justify-content: space-around;
+        align-content: baseline;
+    }
 
-.flex-item {
-  height: 430px;
-  margin: 2%;
-}
+    .flex-item {
+        height: 430px;
+        margin: 2%;
+    }
 
-/* All der untere Text geht um das Logo und den Text daunter. */
+    /* All der untere Text geht um das Logo und den Text daunter. */
 
-.logo{
-  font-family: "Bw Haas Grotesk";
-  display: grid;
-  text-align: center;
-}
+    .logo {
+        font-family: "Bw Haas Grotesk";
+        display: grid;
+        text-align: center;
+    }
 
-img {
-  width: 550px;
-  max-height:100%;
-  margin-top: 40px;
-}
+    img {
+        width: 550px;
+        max-height: 100%;
+        margin-top: 40px;
+    }
 
-h2 {
-  margin-top: 35px;
-  font-size: 30px;
-}
+    h2 {
+        margin-top: 35px;
+        font-size: 30px;
+    }
 
-/* All der untere Text geht um die Formatierung des Loginsystems. */
+    /* All der untere Text geht um die Formatierung des Loginsystems. */
 
-.login {
-  font-family: 'Roboto', sans-serif;
-  min-width: 630px;
-  height: 430px;
-  border-radius: 5%;
-  background-color: white;
-  box-shadow: 0px 0px 30px rgb(23, 8, 87);
+    .login {
+        font-family: 'Roboto', sans-serif;
+        min-width: 630px;
+        height: 430px;
+        border-radius: 5%;
+        background-color: white;
+        box-shadow: 0px 0px 30px rgb(23, 8, 87);
 
-}
+    }
 
-.inputtext_username, .inputtext_pwd, .login-button{
-  width: 580px;
-  height: 27px;
-  padding: 30px;
-  margin: 25px 0  0 25px;
-  border-radius: 10px;
-  font-size: 19px;
-}
+    .inputtext_username, .inputtext_pwd, .login-button {
+        width: 580px;
+        height: 27px;
+        padding: 30px;
+        margin: 25px 0 0 25px;
+        border-radius: 10px;
+        font-size: 19px;
+    }
 
-.inputtext_username, .inputtext_pwd {
-  border:solid 0.54mm  grey;
-}
+    .inputtext_username, .inputtext_pwd {
+        border: solid 0.54mm grey;
+    }
 
-.login-button {
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  width: 583.98px;
-  padding-bottom: 40px;
-  color: white;
-  background-color: #2800D7;
-  border: none;
-  cursor: pointer;
-}
-.login-button:hover {
-  background-color: #1c0156;
-  ;
-}
-.line {
-  align-items: center;
-  border-bottom: 2px solid #dadde1;
-  margin: 20px;
-  width: 580px;
-  padding-top: 20px;
-}
+    .login-button {
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        width: 583.98px;
+        padding-bottom: 40px;
+        color: white;
+        background-color: #2800D7;
+        border: none;
+        cursor: pointer;
+    }
 
-.microsoft-acc {
-  font-size: 19px;
-  text-align: center;
-  padding-top: 23px;
-}
+    .login-button:hover {
+        background-color: #1c0156;;
+    }
 
-/* All der untere Text geht um Sonstiges. */
-@media (max-width: 1280px) {
-  html {
-      min-width: 700px;
-  }
-  img {
-      display: none;
-  }
-  .logo {
-      height: 70px;
-  }
-  .all {
-      display: grid;
-  }
-  h2 {
-      width: 630px;
-  }
-}
+    .line {
+        align-items: center;
+        border-bottom: 2px solid #dadde1;
+        margin: 20px;
+        width: 580px;
+        padding-top: 20px;
+    }
 
-@media (max-width: 730px)  {
-  html {min-width: 575px;}
-  h2 {font-size: 25px;width: 500px;}
+    .microsoft-acc {
+        font-size: 19px;
+        text-align: center;
+        padding-top: 23px;
+    }
 
-  .login {min-width: 467px;}
-  .inputtext_username, .inputtext_pwd, .login-button{width: 400px;}
-  .login-button {width: 443.98px;}
-  .line {width: 430px;}
-}
+    /* All der untere Text geht um Sonstiges. */
+    @media (max-width: 1280px) {
+        html {
+            min-width: 700px;
+        }
 
-@media (max-width: 575px)  {
-  html {min-width: 481px;}
-  h2 {font-size: 22px;width: 400px;}
+        img {
+            display: none;
+        }
 
-  .all {min-width: none; padding:50px 0 165px 0;}
-  .flex-item {width: 400px;}
-  .login {min-width: 400px; height: 330px;}
-  .inputtext_username, .inputtext_pwd, .login-button{width: 342px; padding: 10px; margin: 17px 17px 7px 17px; font-size: 16px;}
-  .login-button {width: 365.98px; padding: 24.49px; line-height: 0px;}
-  .line {width: 360px; padding: 0px; border-bottom: 0.4vw solid #dadde1;;}
-  .inputtext_username, .inputtext_pwd {border:solid 0.4vw grey ;}
-  .microsoft-acc {font-size: 16px; padding-top: 8px;}
-}
-@media (max-width: 481px)  {
-  html {min-width: 320px;}
-  h2 {font-size: 18px; width: 300px;}
+        .logo {
+            height: 70px;
+        }
 
-  .all {min-width: none; padding:50px 0 165px 0;}
-  .flex-item {width: 300px;}
-  .login {min-width:  300px; height: 280px;}
-  .inputtext_username, .inputtext_pwd, .login-button{width: 257px; padding: 10px; margin: 9px 9px 4px 9px; font-size: 16px;}
-  .login-button {width: 279.98px; padding: 24.49px; line-height: 0px;}
-  .line {width: 275px; padding: 0px; border-bottom: 1.5px solid #dadde1;;}
-  .inputtext_username, .inputtext_pwd {border:solid 1.5px grey ;}
-  .microsoft-acc {font-size: 16px; padding-top: 8px;}
-}
+        .all {
+            display: grid;
+        }
 
-.jpm_login{
-  margin-top: 150px;
-  font-size: 80px;
-  color: white;
-  text-shadow: 0px 0px 30px rgb(115, 115, 115);
-}
+        h2 {
+            width: 630px;
+        }
+    }
+
+    @media (max-width: 730px) {
+        html {
+            min-width: 575px;
+        }
+
+        h2 {
+            font-size: 25px;
+            width: 500px;
+        }
+
+        .login {
+            min-width: 467px;
+        }
+
+        .inputtext_username, .inputtext_pwd, .login-button {
+            width: 400px;
+        }
+
+        .login-button {
+            width: 443.98px;
+        }
+
+        .line {
+            width: 430px;
+        }
+    }
+
+    @media (max-width: 575px) {
+        html {
+            min-width: 481px;
+        }
+
+        h2 {
+            font-size: 22px;
+            width: 400px;
+        }
+
+        .all {
+            min-width: none;
+            padding: 50px 0 165px 0;
+        }
+
+        .flex-item {
+            width: 400px;
+        }
+
+        .login {
+            min-width: 400px;
+            height: 330px;
+        }
+
+        .inputtext_username, .inputtext_pwd, .login-button {
+            width: 342px;
+            padding: 10px;
+            margin: 17px 17px 7px 17px;
+            font-size: 16px;
+        }
+
+        .login-button {
+            width: 365.98px;
+            padding: 24.49px;
+            line-height: 0px;
+        }
+
+        .line {
+            width: 360px;
+            padding: 0px;
+            border-bottom: 0.4vw solid #dadde1;;
+        }
+
+        .inputtext_username, .inputtext_pwd {
+            border: solid 0.4vw grey;
+        }
+
+        .microsoft-acc {
+            font-size: 16px;
+            padding-top: 8px;
+        }
+    }
+
+    @media (max-width: 481px) {
+        html {
+            min-width: 320px;
+        }
+
+        h2 {
+            font-size: 18px;
+            width: 300px;
+        }
+
+        .all {
+            min-width: none;
+            padding: 50px 0 165px 0;
+        }
+
+        .flex-item {
+            width: 300px;
+        }
+
+        .login {
+            min-width: 300px;
+            height: 280px;
+        }
+
+        .inputtext_username, .inputtext_pwd, .login-button {
+            width: 257px;
+            padding: 10px;
+            margin: 9px 9px 4px 9px;
+            font-size: 16px;
+        }
+
+        .login-button {
+            width: 279.98px;
+            padding: 24.49px;
+            line-height: 0px;
+        }
+
+        .line {
+            width: 275px;
+            padding: 0px;
+            border-bottom: 1.5px solid #dadde1;;
+        }
+
+        .inputtext_username, .inputtext_pwd {
+            border: solid 1.5px grey;
+        }
+
+        .microsoft-acc {
+            font-size: 16px;
+            padding-top: 8px;
+        }
+    }
+
+    .jpm_login {
+        margin-top: 150px;
+        font-size: 80px;
+        color: white;
+        text-shadow: 0px 0px 30px rgb(115, 115, 115);
+    }
 
 </style>
-
-
 
 
 <!DOCTYPE html>
@@ -174,7 +273,8 @@ h2 {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="anmeldung.css">
     <link rel="icon" type="image/x-icon" href="../Logo/metis-icon.png">
 </head>
@@ -187,30 +287,21 @@ h2 {
     </div>
 
     <div class="flex-item login">
-        <!-- <?php
-        if($error != "/"){
-            echo '<p style="color:red;padding-left: 20px; padding-top:15px;">' . $error . '</p>';
-            ?>
-            <style>
-                .inputtext_username {margin: 5px 0  0 25px;}
-            </style>
-            <?php
-        }
-        ?> -->
-        <form class="input" action="index.php" method="post">
+        <form class="input" method="post">
             {% csrf_token %}
-            {{form|crispy}}
-            <div><button type="submit" name="send-data" class="login-button">
-                <span class="add">Login</span>
-            </button></div>
+            {{ form|crispy }}
+            <div>
+                <button type="submit" name="send-data" class="login-button">
+                    <span class="add">Login</span>
+                </button>
+            </div>
         </form>
         <div class="line"></div>
 
         <div class="microsoft-acc">
-          <a href="{% url 'web_registration' %}">Registration</a>
+            <a href="{% url 'web_registration' %}">Registration</a>
         </div>
     </div>
 </div>
-    <!-- <?php require '5_Anmerkung/anmerkung.html'; ?> -->
 </body>
 </html>
