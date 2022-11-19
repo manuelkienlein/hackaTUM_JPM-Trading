@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-
+from django.shortcuts import render
 from api.serializers import StockSerializer, OrderSerializer, UserSerializer
 from core.models import Stock, Order, Match
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.http import HttpResponseRedirect
+from api.forms import orderData
 # Create your views here.
 
 @api_view(['GET'])
@@ -52,7 +53,7 @@ def orders_info(request, orderId):
 @api_view(['GET'])
 def stocks_index(request):
     serializer = StockSerializer(Stock.objects.all(), many=True)
-    return Response(serializer.data[0]["name"])
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def stocks_info(request, stockId):
