@@ -16,4 +16,8 @@ class Order(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
     action = models.BooleanField()
-       
+
+class Match(models.Model):
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    price_sold = models.IntegerField()
+    quantity_transaction = models.IntegerField()
