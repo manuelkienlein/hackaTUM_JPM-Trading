@@ -17,8 +17,8 @@ class Order(models.Model):
     
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    price = models.CharField(max_length=128)
-    quantity = models.CharField(max_length=128)
+    price = models.IntegerField()
+    quantity = models.IntegerField()
     action = models.BooleanField()
     
     
