@@ -1,5 +1,7 @@
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
+
+from api.serializers import ModelSerializer
 from core.models import Stock
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -20,21 +22,12 @@ def user_stocks_sell(request, userid):
 def user_stocks_delete(request, userid):
     return HttpResponse("TODO: API UserId " + str(userid))
 
-
+@api_view(['GET'])
 def stocks_index(request):
-    return HttpResponse(serializers.serialize('json', Stock.objects.all()), content_type="text/json")
-def stocks_info(request, stockId):
-    return HttpResponse("TODO: API Stocks Info " + str(stockId))
-
+    serializer = ModelSerializer(Stock.objects.all(), many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
-def api_overview(request):
-    api_urls = {
-        'all_items': '/',
-        'Search by Category': '/?category=category_name',
-        'Search by Subcategory': '/?subcategory=category_name',
-        'Add': '/create',
-        'Update': '/update/pk',
-        'Delete': '/item/pk/delete'
-    }
-    return Response(api_urls)
+def stocks_info(request, stockId):
+    serializer = ModelSerializer(Stock.objects.get(id=stockId), many=False)
+    return Response(serializer.data)

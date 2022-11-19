@@ -1,0 +1,7 @@
+from rest_framework import serializers
+from core.models import Stock
+
+class ModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stock
+        fields = '__all__'

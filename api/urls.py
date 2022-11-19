@@ -9,7 +9,5 @@ urlpatterns = [
     path('user/<int:userid>/stocks/delete', views.user_stocks_delete, name='api_user_stocks_delete'),
 
     path('stocks', views.stocks_index, name='stocks_index'),
-    path('stocks/<int:stockid>', views.stocks_info, name='stocks_info'),
-
-    path('overview', views.api_overview, name='api_overview')
+    path('stocks/<int:stockId>', views.stocks_info, name='stocks_info'),
 ]
