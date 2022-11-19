@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from core.models import Stock
+from core.models import Stock, Order
 
-class ModelSerializer(serializers.ModelSerializer):
+
+class StockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
+        fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
         fields = '__all__'
