@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import loader
 
+from core.models import Order
 from web.forms import RegisterUserForm
 
 
@@ -44,4 +45,13 @@ def registration(request):
 
 @login_required
 def account(request):
-    return render(request, 'account.html', {'foo': 'bar'})
+    return render(request, 'account/account.html', {'foo': 'bar'})
+
+
+def account_orders(request):
+    return render(request, 'account/orders.html', {'foo': 'bar'})
+
+
+def account_order_history(request):
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'account/order-history.html', {'orders': orders})
