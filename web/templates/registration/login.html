@@ -260,6 +260,10 @@
         text-shadow: 0px 0px 30px rgb(115, 115, 115);
     }
 
+    .form_wrapper {
+      padding: 20px;
+      padding-bottom: 10px;
+    }
 </style>
 
 
@@ -288,8 +292,10 @@
 
     <div class="flex-item login">
         <form class="input" method="post">
+          <div class="form_wrapper">
             {% csrf_token %}
             {{ form|crispy }}
+          </div>
             <div>
                 <button type="submit" name="send-data" class="login-button">
                     <span class="add">Login</span>

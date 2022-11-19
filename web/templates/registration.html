@@ -43,7 +43,7 @@
     .login {
         font-family: 'Roboto', sans-serif;
         min-width: 630px;
-        height: 580px;
+        height: 820px;
         border-radius: 5%;
         background-color: white;
         box-shadow: 0px 0px 30px grey;
@@ -247,6 +247,11 @@
         color: white;
         text-shadow: 0px 0px 30px rgb(115, 115, 115);
     }
+
+    .form_wrapper {
+      padding: 20px;
+      padding-bottom: 10px;
+    }
 </style>
 
 
@@ -275,9 +280,11 @@
 
     <div class="flex-item login">
         <form method="POST">
+            <div class="form_wrapper">
+              {% csrf_token %}
+              {{ register_form|crispy }}
+            </div>
 
-            {% csrf_token %}
-            {{ register_form|crispy }}
             <div>
                 <button type="submit" name="add" class="login-button"><span class="add">Antrag absenden</span></button>
             </div>
