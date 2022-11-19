@@ -1,8 +1,9 @@
 from django.contrib import admin
-
-from .models import Stock
-from .models import Order
+from django.db import models
+from .models import Stock, Order, Authtoken
 
 # Register your models here.
 admin.site.register(Stock)
 admin.site.register(Order)
+admin.site.register(Authtoken)
+
