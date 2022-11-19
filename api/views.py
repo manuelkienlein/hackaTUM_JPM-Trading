@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 
 from api.serializers import StockSerializer, OrderSerializer
-from core.models import Stock, Order
+from core.models import Stock, Order, Match
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -34,9 +34,49 @@ def orders_info(request, orderId):
 @api_view(['GET'])
 def stocks_index(request):
     serializer = StockSerializer(Stock.objects.all(), many=True)
-    return Response(serializer.data)
+    return Response(serializer.data[0]["name"])
 
 @api_view(['GET'])
 def stocks_info(request, stockId):
     serializer = StockSerializer(Stock.objects.get(id=stockId), many=False)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def orders_matching(request):
+    serializer = StockSerializer(Stock.objects.all(), many=True)
+    orders_json = OrderSerializer(Order.objects.all(), many=True)
+
+    stock_names = []
+    orders_sell = []
+    orders_buy = []
+    matches = []
+
+
+
+    for n in orders_json.data:
+        if not n["action"]:
+            orders_buy.append(n)
+        if n["action"]:
+            orders_sell.append(n)
+
+
+    for count, x in enumerate(orders_buy):
+        for count_y, y in enumerate(orders_sell):
+            if x["stock"] == y["stock"] and x["price"] >= y["price"] and x["quantity"] > 0 and y["quantity"] > 0 and x["id"]==y["id"]:
+                if x["quantity"] > y["quantity"]:
+                    orders_buy[count]["quantity"] = orders_buy[count]["quantity"] - y["quantity"]
+                    book = Match(stock=Stock.objects.get(id=x["id"]), price_sold=y["price"], quantity_transaction=y["quantity"])
+                    book.save()
+
+                    #matches.append({"quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
+
+                if x["quantity"] < y["quantity"]:
+                    orders_sell[count]["quantity"] = orders_sell[count_y]["quantity"] - x["quantity"]
+                    book = Match(stock=Stock.objects.get(id=x["id"]), price_sold=y["price"], quantity_transaction=x["quantity"])
+                    book.save()
+
+                    #matches.append({"quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
+                # matches.append([x["price"], y["price"]])
+
+    return Response(["buy_orders: ", orders_buy, "sell_orders: ", orders_sell, "matches: ", matches])

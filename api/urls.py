@@ -12,5 +12,6 @@ urlpatterns = [
     path('orders/<int:orderId>', views.orders_info, name='orders_info'),
 
     path('stocks', views.stocks_index, name='stocks_index'),
+    path('stocks/matching', views.orders_matching, name='orders_matching'),
     path('stocks/<int:stockId>', views.stocks_info, name='stocks_info'),
 ]
