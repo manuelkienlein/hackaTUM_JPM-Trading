@@ -9,10 +9,9 @@ from django.template import loader
 
 def index(request):
     """View function for home page of site."""
-    template = loader.get_template('login.html')
+    template = loader.get_template('registration/login.html')
     context = {
         'hallo': 10,
-
     }
     return HttpResponse(template.render(context, request))
 #HttpResponse("<h1>Hello World! </h1>")
