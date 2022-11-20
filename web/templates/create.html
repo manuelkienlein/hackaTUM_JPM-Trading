@@ -1,0 +1,5 @@
+<form method = "POST" action = "{% url 'createorder'%}" >
+    {% csrf_token %}
+    {{form}}
+<button> Create Offer </button>
+</form>
