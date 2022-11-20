@@ -20,7 +20,7 @@ def login(request):
 
 
 def registration(request):
-    template = loader.get_template('registration.html')
+    template = loader.get_template('registration/registration.html')
     if request.method == "POST":
         form = RegisterUserForm(request.POST)
         if form.is_valid():
