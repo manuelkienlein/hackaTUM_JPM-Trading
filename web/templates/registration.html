@@ -249,8 +249,8 @@
     }
 
     .form_wrapper {
-      padding: 20px;
-      padding-bottom: 10px;
+        padding: 20px;
+        padding-bottom: 10px;
     }
 </style>
 
@@ -274,43 +274,19 @@
 {% load crispy_forms_tags %}
 <div class="all">
     <div class="flex-item logo">
-        <!-- <div><img src="Logo/metis-logo.png" alt="Metis Logo"></div> -->
         <div><h2 class="jpm_login">JPM Trading</h2></div>
     </div>
 
     <div class="flex-item login">
         <form method="POST">
             <div class="form_wrapper">
-              {% csrf_token %}
-              {{ register_form|crispy }}
+                {% csrf_token %}
+                {{ register_form|crispy }}
             </div>
 
             <div>
                 <button type="submit" name="add" class="login-button"><span class="add">Antrag absenden</span></button>
             </div>
-            <hr>
-
-            <!--
-            <div class="vorname">
-            <input id="vorname" type="text" name="vorname" class="inputtext_username" placeholder="Name" autofocus="1" onkeypress="return event.charCode != 32">
-            <img id="error_vorname" class="error" src="../Logo/error.png" alt="error"></div>
-
-            <div class="nachname"><input type="text" name="nachname" class="inputtext_username" placeholder="Surname" onkeypress="return event.charCode != 32">
-            <img id="error_nachname"class="error" src="../Logo/error.png" alt="error"></div>
-
-            <div class="email"><input type="text" name="email" class="inputtext_username" placeholder="E-Mail-Adress" onkeypress="return event.charCode != 32">
-            <img id="error_email" class="error" src="../Logo/error.png" alt="error"></div>
-
-            <div class="pwd"><input type="password" name="pass" class="inputtext_pwd" placeholder="Password (Atleast 8 characters)" onkeypress="return event.charCode != 32"
-            pattern=".{8,30}"><img id="error_pass" class="error" src="../Logo/error.png" alt="error"></div>
-
-            <div class="pwd"><input type="password" name="pass2" class="inputtext_pwd" placeholder="Repeat password" onkeypress="return event.charCode != 32">
-            <img id="error_pass2" class="error" src="../Logo/error.png" alt="error"></div>
-
-            <div><input type="checkbox" name="agree" class="agree" value="yes"/><span class="agree">I accept the <a href="../5_Anmerkung/nav-subpages/1_index.php" title="term of services">Terms of Use</a></span>
-            <img id="error_checkbox" class="error" src="../Logo/error.png" alt="error"></div>
-            <div><button type="submit" name="add" class="login-button" ><span class="add">Antrag absenden</span></button></div>
-        -->
         </form>
     </div>
 </div>

@@ -46,6 +46,8 @@ def registration(request):
 
 @login_required
 def account(request):
+    # Time is money and since this is a hackathon, we will save time by not writing complex and efficient sql queries.
+
     stocks = {}
     names = {}
     for stock in Stock.objects.all():
@@ -61,10 +63,7 @@ def account(request):
     catalog = []
     for wkn in stocks.keys():
         catalog.append({"wkn": wkn, "name": names[wkn], "quantity": stocks[wkn]})
-    # stocks = Match.objects.aggregate(Sum('quantity_transaction'))
-    # print(stocks['quantity_transaction__sum'])
-    # stocks = Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id'))
-    # print(Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id')).query)
+
     return render(request, 'account/account.html', {'stocks': catalog})
 
 
@@ -92,20 +91,6 @@ def account_controller_order_create(request):
                 OrderService.sell(user, stock, quantity, price)
     form = CreateOrderForm()
     return render(request, "create.html", {"form": form})
-
-
-def delete(request):
-    form = DeleteOrderForm()
-    if request.POST:
-        if form.is_valid():
-            quantity = request.POST.get("quantity")
-            stockID = request.POST.get("stock")
-            userInformation = Order.objects.filter(order=Order.getrequest.order)
-            if quantity < int(userInformation.values("quantity")[0]["quantity"]):
-                userInformation.update(quantity=F('quantity') - quantity)
-
-    return render(request, "delete.html", {"form": form})
-    # command hallo
 
 
 def account_controller_order_delete(request):
