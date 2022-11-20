@@ -25,6 +25,7 @@
           <th scope="col">Price</th>
           <th scope="col">Total Price</th>
           <th scope="col">Time</th>
+          <th scope="col">Id</th>
 
 
       </tr>
@@ -38,6 +39,7 @@
               <th> {{ order.price }}$</th>
               <th class='{{order.action}}'> {% widthratio order.quantity 1 order.price %}$</th>
               <th> {{ order.timestamp }}</th>
+              <th> {{ order.id }}</th>
           </tr>
       {% endfor %}
       </tbody>
