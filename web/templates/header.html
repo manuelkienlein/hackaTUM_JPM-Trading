@@ -2,7 +2,18 @@
 
   .header_m {
     padding-right: 20px;
+    margin-right: 10px;
+    margin-top: 2px;
   }
+
+  .navbar_button {
+    padding-right: 35px;
+    padding-top: 5px;
+  }
+
+
+
+
 </style>
 
 
@@ -22,6 +33,13 @@
                     <a class="nav-link" href="/accounts/logout">Logout</a>
                 </div>
                 <ul class="navbar-nav ml-auto">
+                  <div class="navbar_button">
+                    <form method = "POST" action = "{% url 'web_createorder'%}" >
+                      {% csrf_token %}
+                    <button class="offer_wrapper"> Create Offer </button>
+                    </form>
+                  </div>
+
                     <span class="navbar-text">
                         <a class="header_m">Kontostand: {{ user.userextension.kontostand }},0$</a>
                         Hello, {{ user.username }}
