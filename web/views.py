@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import loader
-
-from core.models import Order, Match
+from api.serializers import OrderSerializer
+from core.models import Order, Stock
+from api.forms import orderData, deleteOrder
 from web.forms import RegisterUserForm
+from django.db.models import F
 
 
 def index(request):
@@ -49,10 +51,36 @@ def account(request):
 
 
 def account_orders(request):
-    orders = Order.objects.filter(user=request.user)
-    return render(request, 'account/orders.html', {'orders': orders})
+    return render(request, 'account/orders.html', {'foo': 'bar'})
 
 
 def account_order_history(request):
-    matches = Match.objects.filter(user_buyer=request.user).filter(user_seller=request.user) #Still have to check if this outputs both, seller and buyer rows for table at order-History
-    return render(request, 'account/order-history.html', {'matches': matches})
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'account/order-history.html', {'orders': orders})
+
+def create(request):
+    form = orderData(request.POST)
+    if request.POST:
+        if form.is_valid():
+            if request.POST.get('action') == "on":
+                actionBool = True
+            else:
+                actionBool = False
+            createOrder = Order(user_id=request.POST.get('userForm'), price=request.POST.get(
+                'price'), quantity=request.POST.get('quantity'), action=actionBool, stock=Stock.objects.get(id=1))
+            createOrder.save()
+    return render(request, "create.html", {"form": form})
+
+
+def delete(request):
+    form = deleteOrder(request.POST)
+    if request.POST:
+        if form.is_valid():
+            quantity = request.POST.get("quantity")
+            stockID = request.POST.get("stock")
+            userInformation = Order.objects.filter(order = Order.getrequest.order)
+            if quantity < int(userInformation.values("quantity")[0]["quantity"]):
+                userInformation.update(quantity=F('quantity')-quantity)
+                
+    return render(request, "delete.html", {"form": form})         
+            #command hallo
