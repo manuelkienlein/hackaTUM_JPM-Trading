@@ -10,9 +10,15 @@ class UserExtension(models.Model):
     token = models.CharField(max_length=256)
     kontostand = models.IntegerField(default=10000)
 
+    def __str__(self):
+        return self.user.get_full_name()
+
 class Stock(models.Model):
     wkn = models.CharField(max_length=6)
     name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name + " (" + self.wkn + ")"
 
 class Order(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
