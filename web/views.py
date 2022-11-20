@@ -48,8 +48,10 @@ def registration(request):
 @login_required
 def account(request):
     stocks = {}
+    names = {}
     for stock in Stock.objects.all():
         stocks[stock.wkn] = 0
+        names[stock.wkn] = stock.name
 
     for transaction in Match.objects.filter(Q(user_buyer=request.user) | Q(user_seller=request.user)):
         if(transaction.user_buyer == request.user):
@@ -57,11 +59,14 @@ def account(request):
         else:
             stocks[transaction.stock.wkn] = stocks[transaction.stock.wkn] - transaction.quantity_transaction
 
+    catalog = []
+    for wkn in stocks.keys():
+        catalog.append({"wkn": wkn, "name": names[wkn], "quantity": stocks[wkn]})
     #stocks = Match.objects.aggregate(Sum('quantity_transaction'))
     #print(stocks['quantity_transaction__sum'])
     #stocks = Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id'))
     #print(Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id')).query)
-    return render(request, 'account/account.html', {'stocks': stocks})
+    return render(request, 'account/account.html', {'stocks': catalog})
 
 
 def account_orders(request):

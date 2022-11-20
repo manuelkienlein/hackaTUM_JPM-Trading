@@ -12,17 +12,14 @@
             <th scope="col">WKN</th>
             <th scope="col">Stock Name</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <th scope="col">Total</th>
         </tr>
         </thead>
         <tbody>
-        {% for wkn, quantity in stocks.items %}
+        {% for stock in stocks %}
             <tr>
-                <th>{{ wkn }}</th>
-                <th>{{ quantity }}</th>
-                <th> </th>
-                <th> </th>
+                <th>{{ stock.wkn }}</th>
+                <th>{{ stock.name }}</th>
+                <th>{{ stock.quantity }}</th>
             </tr>
         {% endfor %}
         </tbody>
