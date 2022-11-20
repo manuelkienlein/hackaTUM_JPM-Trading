@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import loader
 from api.serializers import OrderSerializer
-from core.models import Order, Stock
+from core.models import Order, Stock, Match
 from api.forms import orderData, deleteOrder
 from web.forms import RegisterUserForm
 from django.db.models import F
@@ -51,12 +51,13 @@ def account(request):
 
 
 def account_orders(request):
-    return render(request, 'account/orders.html', {'foo': 'bar'})
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'account/orders.html', {'orders': orders})
 
 
 def account_order_history(request):
-    orders = Order.objects.filter(user=request.user)
-    return render(request, 'account/order-history.html', {'orders': orders})
+    matches = Match.objects.filter(user_buyer=request.user).filter(user_seller=request.user)
+    return render(request, 'account/order-history.html', {'matches': matches})
 
 def create(request):
     form = orderData(request.POST)
@@ -81,6 +82,6 @@ def delete(request):
             userInformation = Order.objects.filter(order = Order.getrequest.order)
             if quantity < int(userInformation.values("quantity")[0]["quantity"]):
                 userInformation.update(quantity=F('quantity')-quantity)
-                
-    return render(request, "delete.html", {"form": form})         
+
+    return render(request, "delete.html", {"form": form})
             #command hallo
