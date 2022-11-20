@@ -1,5 +1,33 @@
-<form method = "POST" action = "{% url 'createorder'%}" >
-    {% csrf_token %}
-    {{form}}
-<button> Create Offer </button>
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.form_wrappers {
+  align-items: center;
+  padding: 50px;
+  width: 30%;
+  margin-left: 37%;
+  margin-top: 3%;
+  outline: 4ex;
+  background-color: rgb(223, 219, 219);
+  border-radius: 22px;
+}
+
+.input_wrapper {
+  padding-bottom:50px;
+}
+
+</style>
+
+
+<div class="form_wrappers">
+  <form method = "POST" action = "{% url 'web_createorder'%}" >
+    <div class="input_wrapper">
+      {% csrf_token %}
+      {{form}}
+    </div>
+
+  <button> Create Offer </button>
+  </form>
+</div>
+{% endblock %}
