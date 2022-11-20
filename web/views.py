@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import loader
 
-from core.models import Order
+from core.models import Order, Match
 from web.forms import RegisterUserForm
 
 
@@ -49,9 +49,10 @@ def account(request):
 
 
 def account_orders(request):
-    return render(request, 'account/orders.html', {'foo': 'bar'})
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'account/orders.html', {'orders': orders})
 
 
 def account_order_history(request):
-    orders = Order.objects.filter(user=request.user)
-    return render(request, 'account/order-history.html', {'orders': orders})
+    matches = Match.objects.filter(user_buyer=request.user).filter(user_seller=request.user) #Still have to check if this outputs both, seller and buyer rows for table at order-History
+    return render(request, 'account/order-history.html', {'matches': matches})

@@ -1,5 +1,45 @@
+<style>
+  .False {
+  background-color: rgb(248, 110, 117);
+}
+
+.True {
+  background-color: rgb(116, 246, 116);
+}
+
+</style>
+
+
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Orders</h1>
+  <h1>Open Orders</h1>
+
+  <table class="table table-striped">
+      <thead class="table-dark">
+
+      <tr>
+          <th scope="col">wkn</th>
+          <th scope="col">Stock Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Time</th>
+
+
+      </tr>
+      </thead>
+      <tbody>
+      {% for order in orders %}
+          <tr>
+              <th> {{ order.stock.wkn }}</th>
+              <th> {{ order.stock.name }}</th>
+              <th> {{ order.quantity }}</th>
+              <th> {{ order.price }}$</th>
+              <th class='{{order.action}}'> {% widthratio order.quantity 1 order.price %}$</th>
+              <th> {{ order.timestamp }}</th>
+          </tr>
+      {% endfor %}
+      </tbody>
+  </table>
 {% endblock %}

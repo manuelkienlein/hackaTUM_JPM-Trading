@@ -1,3 +1,15 @@
+<style>
+    .False {
+    background-color: rgb(248, 110, 117);
+  }
+
+  .True {
+    background-color: rgb(116, 246, 116);
+  }
+
+</style>
+
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -5,16 +17,27 @@
 
     <table class="table table-striped">
         <thead class="table-dark">
+
         <tr>
-            <th scope="col">OrderId</th>
+            <th scope="col">wkn</th>
             <th scope="col">Stock Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th scope="col">Time</th>
+
+
         </tr>
         </thead>
         <tbody>
-        {% for order in orders %}
+        {% for match in matches %}
             <tr>
-                <th> {{ order.id }}</th>
-                <th> {{ order.stock.name }}</th>
+                <th> {{ match.stock.wkn }}</th>
+                <th> {{ match.stock.name }}</th>
+                <th> {{ match.quantity_transaction }}</th>
+                <th> {{ match.price_sold }}$</th>
+                <th> {% widthratio match.quantity_transaction 1 match.price_sold %}$</th>
+                <th> {{ match.timestamp }}</th>
             </tr>
         {% endfor %}
         </tbody>
