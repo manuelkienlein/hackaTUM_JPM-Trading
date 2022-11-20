@@ -30,7 +30,7 @@ class Order(models.Model):
 
 
 class Match(models.Model):
-    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    stock = models.IntegerField()
     price_sold = models.IntegerField()
     quantity_transaction = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
