@@ -47,3 +47,6 @@ class OrderService:
 
         # Return new order position
         return order
+
+    def delete(order: Order):
+        order.delete()
