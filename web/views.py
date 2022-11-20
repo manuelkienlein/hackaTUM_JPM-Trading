@@ -85,7 +85,7 @@ def account_controller_order_create(request):
             stock = form.cleaned_data['stock']
             quantity = form.cleaned_data['quantity']
             price = form.cleaned_data['price']
-            if request.POST.get('action') == "on":
+            if form.cleaned_data['action'] == '1':
                 OrderService.buy(user, stock, quantity, price)
             else:
                 OrderService.sell(user, stock, quantity, price)

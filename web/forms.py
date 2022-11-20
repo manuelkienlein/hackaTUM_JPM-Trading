@@ -16,7 +16,8 @@ class CreateOrderForm(forms.Form):
     stock = forms.ModelChoiceField(required=True, queryset=Stock.objects.all())
     price = forms.IntegerField(required=True, label="Stock Price")
     quantity = forms.IntegerField(required=True, label="Quantity")
-    action = forms.BooleanField(required=False, label="Action")
+    action = forms.ChoiceField(choices=[('1', 'Buy stock'), ('0', 'Sell stock')], label="Action",
+                               initial='1', widget=forms.Select(), required=False)
 
 
 class DeleteOrderForm(forms.Form):
