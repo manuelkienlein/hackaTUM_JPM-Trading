@@ -8,7 +8,7 @@ from api.serializers import OrderSerializer
 from core.models import Order, Stock, Match
 from api.forms import orderData, deleteOrder
 from web.forms import RegisterUserForm
-from django.db.models import F
+from django.db.models import F, Q
 
 
 def index(request):
@@ -56,7 +56,7 @@ def account_orders(request):
 
 
 def account_order_history(request):
-    matches = Match.objects.filter(user_buyer=request.user).filter(user_seller=request.user)
+    matches = Match.objects.filter(Q(user_buyer=request.user) | Q(user_seller=request.user))
     return render(request, 'account/order-history.html', {'matches': matches})
 
 def create(request):

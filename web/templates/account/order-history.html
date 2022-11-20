@@ -26,8 +26,7 @@
             <th scope="col">Price</th>
             <th scope="col">Total</th>
             <th scope="col">Time</th>
-
-
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -39,6 +38,7 @@
                 <th> {{ match.price_sold }}$</th>
                 <th> {% widthratio match.quantity_transaction 1 match.price_sold %}$</th>
                 <th> {{ match.timestamp }}</th>
+                <th> {% if match.user_buyer == user %}BUY{% else %}SELL{% endif %} </th>
             </tr>
         {% endfor %}
         </tbody>
