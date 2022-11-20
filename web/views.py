@@ -8,7 +8,7 @@ from api.serializers import OrderSerializer
 from core.models import Order, Stock, Match
 from api.forms import orderData, deleteOrder
 from web.forms import RegisterUserForm
-from django.db.models import F, Q
+from django.db.models import F, Q, Count, Sum
 
 
 def index(request):
@@ -47,7 +47,21 @@ def registration(request):
 
 @login_required
 def account(request):
-    return render(request, 'account/account.html', {'foo': 'bar'})
+    stocks = {}
+    for stock in Stock.objects.all():
+        stocks[stock.wkn] = 0
+
+    for transaction in Match.objects.filter(Q(user_buyer=request.user) | Q(user_seller=request.user)):
+        if(transaction.user_buyer == request.user):
+            stocks[transaction.stock.wkn] = stocks[transaction.stock.wkn] + transaction.quantity_transaction
+        else:
+            stocks[transaction.stock.wkn] = stocks[transaction.stock.wkn] - transaction.quantity_transaction
+
+    #stocks = Match.objects.aggregate(Sum('quantity_transaction'))
+    #print(stocks['quantity_transaction__sum'])
+    #stocks = Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id'))
+    #print(Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id')).query)
+    return render(request, 'account/account.html', {'stocks': stocks})
 
 
 def account_orders(request):

@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Home</h1>
+    <h1>Account</h1>
+
+    <h2>Current Stock Portfolio</h2>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+
+        <tr>
+            <th scope="col">WKN</th>
+            <th scope="col">Stock Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for wkn, quantity in stocks.items %}
+            <tr>
+                <th>{{ wkn }}</th>
+                <th>{{ quantity }}</th>
+                <th> </th>
+                <th> </th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
