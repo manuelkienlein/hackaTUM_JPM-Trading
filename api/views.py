@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from api.serializers import StockSerializer, OrderSerializer, UserSerializer
-from core.models import Stock, Order, Match
+from core.models import Stock, Order
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from core.services.matching_service import MatchingService
 from core.services.order_service import OrderService
 
 
@@ -17,12 +18,6 @@ def users_index(request):
 def users_info(request, userId):
     serializer = UserSerializer(User.objects.get(id=userId), many=False)
     return Response(serializer.data)
-
-
-@api_view(['GET'])
-def users_stocks(request, userId):
-    # TODO
-    return HttpResponse("TODO: API UserId " + str(userId))
 
 
 @api_view(['GET'])
@@ -49,8 +44,12 @@ def users_stocks_sell(request, userId):
 
 @api_view(['GET'])
 def users_stocks_delete(request, userId):
-    # TODO
-    return HttpResponse("TODO: API UserId " + str(userId))
+    order = Order.objects.get(id=request.GET.get('orderId'))
+    OrderService.delete(order)
+    data = {
+        'message': 'Deleted order successfully!',
+    }
+    return Response(data)
 
 
 @api_view(['GET'])
@@ -86,57 +85,10 @@ def stocks_info(request, stockId):
 
 @api_view(['GET'])
 def orders_matching(request):
-    serializer = StockSerializer(Stock.objects.all(), many=True)
-    orders_json = OrderSerializer(Order.objects.all(), many=True)
-
-    stock_names = []
-    orders_sell = []
-    orders_buy = []
-    matches = []
-
-    for n in orders_json.data:
-        if not n["action"]:
-            orders_buy.append(n)
-        if n["action"]:
-            orders_sell.append(n)
-
-    for count, x in enumerate(orders_buy):
-        for count_y, y in enumerate(orders_sell):
-            if x["price"] >= y["price"] and x["stock"] == y["stock"] and x["quantity"] > 0 and y["quantity"] > 0:
-
-                if x["quantity"] == y["quantity"]:
-                    matches.append({"stock": x["stock"], "quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
-                    book = Match(stock=Stock.objects.get(id=x["stock"]), price_sold=y["price"], quantity_transaction=y["quantity"], user_buyer=User.objects.get(id=x["user"]), user_seller=User.objects.get(id=y["user"]))
-                    book.save()
-                    orders_buy[count]["quantity"] = 0
-                    orders_sell[count_y]["quantity"] = 0
-                    Order.objects.get(id=x['id']).delete()
-                    Order.objects.get(id=y['id']).delete()
-
-
-                if x["quantity"] > y["quantity"]:
-                    matches.append({"stock": x["stock"], "quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
-                    orders_buy[count]["quantity"] = orders_buy[count]["quantity"] - orders_sell[count_y]["quantity"]
-                    orders_sell[count_y]["quantity"] = 0
-                    book = Match(stock=Stock.objects.get(id=x["stock"]), price_sold=y["price"], quantity_transaction=y["quantity"], user_buyer=User.objects.get(id=x["user"]), user_seller=User.objects.get(id=y["user"]))
-                    book.save()
-                    order_x = Order.objects.get(id=x['id'])
-                    order_x.quantity -= y["quantity"]
-                    order_x.save()
-                    order_y = Order.objects.get(id=y['id'])
-                    order_y.delete()
-
-
-                if x["quantity"] < y["quantity"]:
-                    matches.append({"stock": x["stock"], "quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
-                    book = Match(stock=Stock.objects.get(id=x["stock"]), price_sold=y["price"], quantity_transaction=x["quantity"], user_buyer=User.objects.get(id=x["user"]), user_seller=User.objects.get(id=y["user"]))
-                    book.save()
-                    orders_buy[count]["quantity"] = 0
-                    orders_sell[count_y]["quantity"] = orders_sell[count_y]["quantity"] - orders_buy[count]["quantity"]
-                    order_y = Order.objects.get(id=y['id'])
-                    order_y.quantity -= x["quantity"]
-                    order_y.save()
-                    order_x = Order.objects.get(id=x['id'])
-                    order_x.delete()
-
-    return Response([orders_buy, orders_sell, matches])
+    matches = MatchingService.execute_matching()
+    data = {
+        'message': 'Order matching job completed successfully',
+        'matchesCount': len(matches),
+        'matches': matches
+    }
+    return Response(data)
