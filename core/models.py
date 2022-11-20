@@ -11,7 +11,7 @@ class UserExtension(models.Model):
     kontostand = models.IntegerField(default=10000)
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.user.username
 
 class Stock(models.Model):
     wkn = models.CharField(max_length=6)
@@ -30,7 +30,7 @@ class Order(models.Model):
 
 
 class Match(models.Model):
-    stock = models.IntegerField()
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     price_sold = models.IntegerField()
     quantity_transaction = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
