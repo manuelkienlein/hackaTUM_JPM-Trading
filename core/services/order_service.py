@@ -34,15 +34,15 @@ class OrderService:
         # order.save()
 
         # # Create new buy-order position
-        order = Order(user=user, price=price, quantity=quantity, action=1, stock=stock)
+        order = Order(user=user, price=price, quantity=quantity, action=True, stock=stock)
         order.save()
 
         # Return new order position
         return order
 
-    def sell(user, stock, quantity, price):
+    def sell(user: User, stock: Stock, quantity: int, price: int):
         # Create new sell-order position
-        order = Order(user=user, price=price, quantity=quantity, action=0, stock=stock)
+        order = Order(user=user, price=price, quantity=quantity, action=False, stock=stock)
         order.save()
 
         # Return new order position

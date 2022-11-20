@@ -1,12 +1,10 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render
 from api.serializers import StockSerializer, OrderSerializer, UserSerializer
 from core.models import Stock, Order, Match
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.http import HttpResponseRedirect
-from api.forms import orderData
+from core.services.order_service import OrderService
 
 
 @api_view(['GET'])
@@ -29,14 +27,24 @@ def users_stocks(request, userId):
 
 @api_view(['GET'])
 def users_stocks_buy(request, userId):
-    # TODO
-    return HttpResponse("TODO: API UserId " + str(userId))
+    stock = Stock.objects.filter(wkn=request.GET.get('stock'))[0]
+    quantity = request.GET.get('quantity')
+    price = request.GET.get('price')
+
+    order = OrderService.buy(request.user, stock, quantity, price)
+    serializer = OrderSerializer(order, many=False)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
 def users_stocks_sell(request, userId):
-    # TODO
-    return HttpResponse("TODO: API UserId " + str(userId))
+    stock = Stock.objects.filter(wkn=request.GET.get('stock'))[0]
+    quantity = request.GET.get('quantity')
+    price = request.GET.get('price')
+
+    order = OrderService.sell(request.user, stock, quantity, price)
+    serializer = OrderSerializer(order, many=False)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
