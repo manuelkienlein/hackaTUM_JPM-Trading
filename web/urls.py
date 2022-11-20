@@ -10,4 +10,5 @@ urlpatterns = [
     path('accounts/orders', views.account_orders, name='web_account_orders'),
     path('accounts/order-history', views.account_order_history, name='web_account_order_history'),
     path('offer/create', create, name = "web_createorder"),
+    path('accounts/controller/deleteOrder', views.account_controller_delete_order, name="web_account_controller_order_delete")
 ]

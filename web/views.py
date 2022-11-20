@@ -7,6 +7,7 @@ from django.template import loader
 from api.serializers import OrderSerializer
 from core.models import Order, Stock, Match
 from api.forms import orderData, deleteOrder
+from core.services.order_service import OrderService
 from web.forms import RegisterUserForm
 from django.db.models import F, Q, Count, Sum
 
@@ -104,3 +105,9 @@ def delete(request):
 
     return render(request, "delete.html", {"form": form})
             #command hallo
+
+
+def account_controller_delete_order(request):
+    order = Order.objects.get(id=request.GET.get('id'))
+    OrderService.delete(order)
+    return redirect('web_account_orders')
