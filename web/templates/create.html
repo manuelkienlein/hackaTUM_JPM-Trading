@@ -1,33 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-.form_wrappers {
-  align-items: center;
-  padding: 50px;
-  width: 30%;
-  margin-left: 37%;
-  margin-top: 3%;
-  outline: 4ex;
-  background-color: rgb(223, 219, 219);
-  border-radius: 22px;
-}
+    {% load crispy_forms_tags %}
+    <div class="card">
+        <div class="card-body" style="background-color: #fafafa">
+            <div class="form_wrappers">
+                <form method="POST" action="{% url 'web_createorder' %}">
+                    <div class="form_wrapper">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </div>
 
-.input_wrapper {
-  padding-bottom:50px;
-}
-
-</style>
-
-
-<div class="form_wrappers">
-  <form method = "POST" action = "{% url 'web_createorder'%}" >
-    <div class="input_wrapper">
-      {% csrf_token %}
-      {{form}}
+                    <div>
+                        <button type="submit" name="add" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-  <button> Create Offer </button>
-  </form>
-</div>
 {% endblock %}

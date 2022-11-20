@@ -1,14 +1,13 @@
-from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-from django.http import HttpResponse
-from django.template import loader
-from api.serializers import OrderSerializer
-from core.models import Order, Stock, Match
-from api.forms import orderData, deleteOrder
-from web.forms import RegisterUserForm
 from django.db.models import F, Q
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.template import loader
+
+from core.models import Order, Stock, Match
+from core.services.order_service import OrderService
+from web.forms import RegisterUserForm, CreateOrderForm, DeleteOrderForm
 
 
 def index(request):
@@ -47,7 +46,26 @@ def registration(request):
 
 @login_required
 def account(request):
-    return render(request, 'account/account.html', {'foo': 'bar'})
+    stocks = {}
+    names = {}
+    for stock in Stock.objects.all():
+        stocks[stock.wkn] = 0
+        names[stock.wkn] = stock.name
+
+    for transaction in Match.objects.filter(Q(user_buyer=request.user) | Q(user_seller=request.user)):
+        if (transaction.user_buyer == request.user):
+            stocks[transaction.stock.wkn] = stocks[transaction.stock.wkn] + transaction.quantity_transaction
+        else:
+            stocks[transaction.stock.wkn] = stocks[transaction.stock.wkn] - transaction.quantity_transaction
+
+    catalog = []
+    for wkn in stocks.keys():
+        catalog.append({"wkn": wkn, "name": names[wkn], "quantity": stocks[wkn]})
+    # stocks = Match.objects.aggregate(Sum('quantity_transaction'))
+    # print(stocks['quantity_transaction__sum'])
+    # stocks = Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id'))
+    # print(Match.objects.values('stock_id', 'stock', 'quantity_transaction').annotate(count=Sum('quantity_transaction')).aggregate(Sum('stock_id')).query)
+    return render(request, 'account/account.html', {'stocks': catalog})
 
 
 def account_orders(request):
@@ -59,29 +77,38 @@ def account_order_history(request):
     matches = Match.objects.filter(Q(user_buyer=request.user) | Q(user_seller=request.user))
     return render(request, 'account/order-history.html', {'matches': matches})
 
-def create(request):
-    form = orderData(request.POST)
+
+def account_controller_order_create(request):
     if request.POST:
+        form = CreateOrderForm(request.POST)
         if form.is_valid():
+            user = request.user
+            stock = form.cleaned_data['stock']
+            quantity = form.cleaned_data['quantity']
+            price = form.cleaned_data['price']
             if request.POST.get('action') == "on":
-                actionBool = True
+                OrderService.buy(user, stock, quantity, price)
             else:
-                actionBool = False
-            createOrder = Order(user_id=request.POST.get('userForm'), price=request.POST.get(
-                'price'), quantity=request.POST.get('quantity'), action=actionBool, stock=Stock.objects.get(id=1))
-            createOrder.save()
+                OrderService.sell(user, stock, quantity, price)
+    form = CreateOrderForm()
     return render(request, "create.html", {"form": form})
 
 
 def delete(request):
-    form = deleteOrder(request.POST)
+    form = DeleteOrderForm()
     if request.POST:
         if form.is_valid():
             quantity = request.POST.get("quantity")
             stockID = request.POST.get("stock")
-            userInformation = Order.objects.filter(order = Order.getrequest.order)
+            userInformation = Order.objects.filter(order=Order.getrequest.order)
             if quantity < int(userInformation.values("quantity")[0]["quantity"]):
-                userInformation.update(quantity=F('quantity')-quantity)
+                userInformation.update(quantity=F('quantity') - quantity)
 
     return render(request, "delete.html", {"form": form})
-            #command hallo
+    # command hallo
+
+
+def account_controller_order_delete(request):
+    order = Order.objects.get(id=request.GET.get('id'))
+    OrderService.delete(order)
+    return redirect('web_account_orders')
