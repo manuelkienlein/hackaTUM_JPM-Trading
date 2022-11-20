@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import loader
 
+from api.forms import orderData
 from core.models import Order
 from web.forms import RegisterUserForm
 
@@ -55,3 +56,16 @@ def account_orders(request):
 def account_order_history(request):
     orders = Order.objects.filter(user=request.user)
     return render(request, 'account/order-history.html', {'orders': orders})
+
+
+def create(request):
+    form = orderData(request.POST)
+    if request.POST:
+        if form.is_valid():
+            if request.POST.get('action') == "on":
+                actionBool = True
+            else:
+                 actionBool = False
+            createOrder = Order(user_id = request.POST.get('userForm'), price = request.POST.get('price'), quantity = request.POST.get('quantity'), action = actionBool, stock = Stock.objects.get(id=1))
+            createOrder.save()
+    return render(request, "create.html" , {"form": form})

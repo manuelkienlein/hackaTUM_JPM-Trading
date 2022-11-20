@@ -6,7 +6,7 @@ urlpatterns = [
     path('users/<int:userId>', views.users_info, name='api_user_index'),
     path('users/<int:userId>/stocks', views.users_stocks, name='api_user_info'),
     path('users/<int:userId>/stocks/buy', views.users_stocks_buy, name='api_user_stocks_buy'),
-    path('users/<int:userId>/stocks/sell', views.users_stocks_buy, name='api_user_stocks_sell'),
+    path('users/<int:userId>/stocks/sell', views.users_stocks_sell, name='api_user_stocks_sell'),
     path('users/<int:userId>/stocks/delete', views.users_stocks_delete, name='api_user_stocks_delete'),
     path('users/<int:userId>/orders', views.users_orders_index, name='api_user_orders_index'),
 
