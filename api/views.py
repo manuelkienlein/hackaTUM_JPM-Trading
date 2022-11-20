@@ -102,23 +102,30 @@ def orders_matching(request):
 
     for count, x in enumerate(orders_buy):
         for count_y, y in enumerate(orders_sell):
-            if x["stock"] == y["stock"] and x["price"] >= y["price"] and x["quantity"] > 0 and y["quantity"] > 0 and x[
-                "id"] == y["id"]:
+            if x["price"] >= y["price"] and x["stock"] == y["stock"] and x["quantity"] > 0 and y["quantity"] > 0:
+
+                if x["quantity"] == y["quantity"]:
+                    #matches.append(matches.append({"stock": x["stock"], "quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]}))
+                    book = Match(stock=x["stock"], price_sold=y["price"], quantity_transaction=y["quantity"], user_buyer=User.objects.get(id=x["id"]), user_seller=User.objects.get(id=y["id"]))
+                    book.save()
+                    orders_buy[count]["quantity"] = 0
+                    orders_sell[count_y]["quantity"] = 0
+
+
                 if x["quantity"] > y["quantity"]:
-                    orders_buy[count]["quantity"] = orders_buy[count]["quantity"] - y["quantity"]
-                    book = Match(stock=Stock.objects.get(id=x["id"]), price_sold=y["price"],
-                                 quantity_transaction=y["quantity"])
+                    #matches.append(matches.append({"stock": x["stock"], "quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]}))
+                    orders_buy[count]["quantity"] = orders_buy[count]["quantity"] - orders_sell[count_y]["quantity"]
+                    orders_sell[count_y]["quantity"] = 0
+                    book = Match(stock=x["stock"], price_sold=y["price"], quantity_transaction=y["quantity"], user_buyer=User.objects.get(id=x["user"]), user_seller=User.objects.get(id=y["user"]))
                     book.save()
 
-                    # matches.append({"quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
 
                 if x["quantity"] < y["quantity"]:
-                    orders_sell[count]["quantity"] = orders_sell[count_y]["quantity"] - x["quantity"]
-                    book = Match(stock=Stock.objects.get(id=x["id"]), price_sold=y["price"],
-                                 quantity_transaction=x["quantity"])
+                    #matches.append(matches.append({"stock": x["stock"], "quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]}))
+                    book = Match(stock=x["stock"], price_sold=y["price"], quantity_transaction=x["quantity"], user_buyer=User.objects.get(id=x["user"]), user_seller=User.objects.get(id=y["user"]))
                     book.save()
+                    orders_buy[count]["quantity"] = 0
+                    orders_sell[count_y]["quantity"] = orders_sell[count_y]["quantity"] - orders_buy[count]["quantity"]
 
-                    # matches.append({"quantity": y["quantity"], "price_x": x["price"], "price_y": y["price"], "price_match": y["price"], "id_x": x["id"], "id_y":y["id"]})
-                # matches.append([x["price"], y["price"]])
 
-    return Response(["buy_orders: ", orders_buy, "sell_orders: ", orders_sell, "matches: ", matches])
+    return Response([orders_buy, orders_sell, matches])
